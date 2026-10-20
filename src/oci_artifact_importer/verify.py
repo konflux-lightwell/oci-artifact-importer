@@ -4,9 +4,9 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 
-from faire_cuan import ValidationError, VerificationError
-from faire_cuan.auth import create_docker_auth, setup_ca_bundle
-from faire_cuan.tools import cosign, openssl
+from oci_artifact_importer import ValidationError, VerificationError
+from oci_artifact_importer.auth import create_docker_auth, setup_ca_bundle
+from oci_artifact_importer.tools import cosign, openssl
 
 logger = logging.getLogger(__name__)
 

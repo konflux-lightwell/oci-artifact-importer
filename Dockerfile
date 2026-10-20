@@ -20,4 +20,4 @@ COPY --from=builder /venv /venv
 
 USER taskuser
 
-ENTRYPOINT ["/venv/bin/faire-cuan"]
+ENTRYPOINT ["/venv/bin/oci-artifact-importer"]

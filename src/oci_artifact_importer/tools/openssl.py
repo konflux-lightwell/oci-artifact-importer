@@ -5,7 +5,7 @@ import hashlib
 import subprocess
 from pathlib import Path
 
-from faire_cuan import ToolError
+from oci_artifact_importer import ToolError
 
 
 def compute_key_fingerprint(key_file: Path) -> str:

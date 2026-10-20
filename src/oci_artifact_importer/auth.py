@@ -4,7 +4,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from faire_cuan import ToolError
+from oci_artifact_importer import ToolError
 
 
 def setup_ca_bundle(ca_bundle: Path | None) -> None:

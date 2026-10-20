@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: quay.io
   REGISTRY_PROJECT: light-castle
-  IMAGE_NAME: faire-cuan
+  IMAGE_NAME: oci-artifact-importer
 
 jobs:
   build:

@@ -11,8 +11,8 @@ from unittest.mock import patch
 
 import pytest
 
-from faire_cuan import ValidationError
-from faire_cuan.results import (
+from oci_artifact_importer import ValidationError
+from oci_artifact_importer.results import (
     _compute_image_info,
     _decode_dsse_payload,
     _extract_git_coordinates,
@@ -141,7 +141,7 @@ class TestGetOciLayerPath:
 class TestExtractSbom:
     def test_extracts_from_oci_layer(self, oci_layer: Path, tmp_path: Path):
         sbom_dir = tmp_path / "sbom"
-        with patch("faire_cuan.results.cosign"):
+        with patch("oci_artifact_importer.results.cosign"):
             result = _extract_sbom(oci_layer, "img@sha256:abc", sbom_dir, tmp_path / "auth")
 
         assert result is not None
@@ -155,7 +155,7 @@ class TestExtractSbom:
         sbom_dir = tmp_path / "sbom"
         attestation = _make_attestation("https://cyclonedx.org/bom", {"components": []})
 
-        with patch("faire_cuan.results.cosign.download_attestation", return_value=[attestation]):
+        with patch("oci_artifact_importer.results.cosign.download_attestation", return_value=[attestation]):
             result = _extract_sbom(layer_path, "img@sha256:abc", sbom_dir, tmp_path / "auth")
 
         assert result is not None
@@ -167,7 +167,7 @@ class TestExtractSbom:
             pass
 
         sbom_dir = tmp_path / "sbom"
-        with patch("faire_cuan.results.cosign.download_attestation", return_value=[]):
+        with patch("oci_artifact_importer.results.cosign.download_attestation", return_value=[]):
             result = _extract_sbom(layer_path, "img@sha256:abc", sbom_dir, tmp_path / "auth")
 
         assert result is None
@@ -184,28 +184,28 @@ class TestExtractSources:
 class TestExtractGitCoordinates:
     def test_extracts_from_slsa_v1(self, tmp_path: Path):
         attestation = _make_slsa_attestation(git_url="https://github.com/org/repo", git_commit="deadbeef")
-        with patch("faire_cuan.results.cosign.download_attestation", return_value=[attestation]):
+        with patch("oci_artifact_importer.results.cosign.download_attestation", return_value=[attestation]):
             git = _extract_git_coordinates("img@sha256:abc", tmp_path / "auth")
 
         assert git.url == "https://github.com/org/repo"
         assert git.commit == "deadbeef"
 
     def test_raises_when_no_slsa_provenance(self, tmp_path: Path):
-        with patch("faire_cuan.results.cosign.download_attestation", return_value=[]):
+        with patch("oci_artifact_importer.results.cosign.download_attestation", return_value=[]):
             with pytest.raises(ValidationError, match="SLSA provenance"):
                 _extract_git_coordinates("img@sha256:abc", tmp_path / "auth")
 
 
 class TestRunResults:
-    @patch("faire_cuan.results._attach_build_index")
-    @patch("faire_cuan.results._extract_git_coordinates")
-    @patch("faire_cuan.results._extract_sources")
-    @patch("faire_cuan.results._attach_sbom")
-    @patch("faire_cuan.results._extract_sbom")
-    @patch("faire_cuan.results._download_oci_layout")
-    @patch("faire_cuan.results.create_docker_auth")
-    @patch("faire_cuan.results.home_docker_config")
-    @patch("faire_cuan.results.setup_ca_bundle")
+    @patch("oci_artifact_importer.results._attach_build_index")
+    @patch("oci_artifact_importer.results._extract_git_coordinates")
+    @patch("oci_artifact_importer.results._extract_sources")
+    @patch("oci_artifact_importer.results._attach_sbom")
+    @patch("oci_artifact_importer.results._extract_sbom")
+    @patch("oci_artifact_importer.results._download_oci_layout")
+    @patch("oci_artifact_importer.results.create_docker_auth")
+    @patch("oci_artifact_importer.results.home_docker_config")
+    @patch("oci_artifact_importer.results.setup_ca_bundle")
     def test_orchestrates_all_steps(
         self,
         mock_ca,
@@ -219,7 +219,7 @@ class TestRunResults:
         mock_build_index,
         tmp_path,
     ):
-        from faire_cuan.results import GitCoordinates
+        from oci_artifact_importer.results import GitCoordinates
 
         mock_home.return_value = tmp_path / "home-docker"
         mock_dst_auth.return_value = tmp_path / "dst-auth"
@@ -237,14 +237,14 @@ class TestRunResults:
         assert result.git.url == "https://github.com/org/repo"
         assert result.git.commit == "abc123"
 
-    @patch("faire_cuan.results._attach_build_index")
-    @patch("faire_cuan.results._extract_git_coordinates")
-    @patch("faire_cuan.results._extract_sources")
-    @patch("faire_cuan.results._extract_sbom")
-    @patch("faire_cuan.results._download_oci_layout")
-    @patch("faire_cuan.results.create_docker_auth")
-    @patch("faire_cuan.results.home_docker_config")
-    @patch("faire_cuan.results.setup_ca_bundle")
+    @patch("oci_artifact_importer.results._attach_build_index")
+    @patch("oci_artifact_importer.results._extract_git_coordinates")
+    @patch("oci_artifact_importer.results._extract_sources")
+    @patch("oci_artifact_importer.results._extract_sbom")
+    @patch("oci_artifact_importer.results._download_oci_layout")
+    @patch("oci_artifact_importer.results.create_docker_auth")
+    @patch("oci_artifact_importer.results.home_docker_config")
+    @patch("oci_artifact_importer.results.setup_ca_bundle")
     def test_empty_sbom_blob_url_when_no_sbom(
         self,
         mock_ca,
@@ -257,7 +257,7 @@ class TestRunResults:
         mock_build_index,
         tmp_path,
     ):
-        from faire_cuan.results import GitCoordinates
+        from oci_artifact_importer.results import GitCoordinates
 
         mock_home.return_value = tmp_path / "home-docker"
         mock_dst_auth.return_value = tmp_path / "dst-auth"

@@ -6,7 +6,7 @@ import subprocess
 from collections.abc import Iterator
 from pathlib import Path
 
-from faire_cuan import ToolError
+from oci_artifact_importer import ToolError
 
 logger = logging.getLogger(__name__)
 

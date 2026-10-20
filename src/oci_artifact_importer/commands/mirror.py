@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from faire_cuan.mirror import run_mirror
+from oci_artifact_importer.mirror import run_mirror
 
 
 def register(subparsers: argparse._SubParsersAction) -> None:

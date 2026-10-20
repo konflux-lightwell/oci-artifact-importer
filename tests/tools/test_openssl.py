@@ -8,8 +8,8 @@ from unittest.mock import patch
 
 import pytest
 
-from faire_cuan import ToolError
-from faire_cuan.tools import openssl
+from oci_artifact_importer import ToolError
+from oci_artifact_importer.tools import openssl
 
 
 @pytest.fixture()
