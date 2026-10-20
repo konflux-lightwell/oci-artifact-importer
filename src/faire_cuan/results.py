@@ -103,7 +103,7 @@ def _decode_dsse_payload(envelope: dict) -> dict:
 
 def _get_oci_layer_path(oci_dir: Path) -> Path:
     index = json.loads((oci_dir / "index.json").read_text())
-    manifest_digest = index["referrers"][0]["digest"].removeprefix("sha256:")
+    manifest_digest = index["manifests"][0]["digest"].removeprefix("sha256:")
     manifest = json.loads((oci_dir / "blobs" / "sha256" / manifest_digest).read_text())
     layer_digest = manifest["layers"][0]["digest"].removeprefix("sha256:")
     return oci_dir / "blobs" / "sha256" / layer_digest
