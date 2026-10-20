@@ -77,7 +77,7 @@ def oci_layout(tmp_path: Path) -> tuple[Path, Path]:
     manifest_hash = hashlib.sha256(manifest.encode()).hexdigest()
     (blobs / manifest_hash).write_text(manifest)
 
-    index = json.dumps({"referrers": [{"digest": f"sha256:{manifest_hash}"}]})
+    index = json.dumps({"manifests": [{"digest": f"sha256:{manifest_hash}"}]})
     (oci_dir / "index.json").write_text(index)
 
     return oci_dir, blobs / layer_hash
