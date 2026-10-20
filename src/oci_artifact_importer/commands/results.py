@@ -3,8 +3,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from faire_cuan.results import run_results
-from faire_cuan.tekton import write_result
+from oci_artifact_importer.results import run_results
+from oci_artifact_importer.tekton import write_result
 
 
 def register(subparsers: argparse._SubParsersAction) -> None:

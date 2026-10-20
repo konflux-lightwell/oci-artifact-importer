@@ -7,8 +7,8 @@ from unittest.mock import patch
 
 import pytest
 
-from faire_cuan import ToolError
-from faire_cuan.tools import cosign
+from oci_artifact_importer import ToolError
+from oci_artifact_importer.tools import cosign
 
 
 @pytest.fixture()
@@ -78,7 +78,7 @@ class TestDownloadAttestation:
 
     def test_stderr_is_logged_not_raised(self, docker_config: Path, caplog):
         proc = CompletedProcess(args=[], returncode=0, stdout="{}\n", stderr="some warning")
-        with caplog.at_level("WARNING", logger="faire_cuan.tools.cosign"):
+        with caplog.at_level("WARNING", logger="oci_artifact_importer.tools.cosign"):
             with patch("subprocess.run", return_value=proc):
                 list(cosign.download_attestation("img@sha256:abc", docker_config=docker_config))
 

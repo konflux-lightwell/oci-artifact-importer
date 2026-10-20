@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 import pytest
 
-from faire_cuan import ToolError
-from faire_cuan.auth import create_docker_auth, home_docker_config, setup_ca_bundle
+from oci_artifact_importer import ToolError
+from oci_artifact_importer.auth import create_docker_auth, home_docker_config, setup_ca_bundle
 
 
 class TestSetupCaBundle:
@@ -44,7 +44,7 @@ class TestCreateDockerAuth:
         auth_dir = tmp_path / "docker-auth"
         auth_json = '{"auths": {"registry.example.com": {"auth": "dXNlcjpwYXNz"}}}'
 
-        with patch("faire_cuan.auth.subprocess.run") as mock_run:
+        with patch("oci_artifact_importer.auth.subprocess.run") as mock_run:
             mock_run.return_value = CompletedProcess(
                 args=[],
                 returncode=0,
@@ -58,7 +58,7 @@ class TestCreateDockerAuth:
         assert (auth_dir / "config.json").read_text() == auth_json
 
     def test_raises_tool_error_on_failure(self, tmp_path):
-        with patch("faire_cuan.auth.subprocess.run") as mock_run:
+        with patch("oci_artifact_importer.auth.subprocess.run") as mock_run:
             mock_run.return_value = CompletedProcess(
                 args=[],
                 returncode=1,

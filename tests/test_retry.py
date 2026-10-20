@@ -2,16 +2,16 @@ from unittest.mock import patch
 
 import pytest
 
-from faire_cuan.retry import retry
+from oci_artifact_importer.retry import retry
 
 
 class TestRetry:
-    @patch("faire_cuan.retry.time.sleep")
+    @patch("oci_artifact_importer.retry.time.sleep")
     def test_returns_on_first_success_without_sleeping(self, mock_sleep):
         assert retry(lambda: 42) == 42
         mock_sleep.assert_not_called()
 
-    @patch("faire_cuan.retry.time.sleep")
+    @patch("oci_artifact_importer.retry.time.sleep")
     def test_retries_until_success(self, mock_sleep):
         calls = iter([ValueError("boom"), "ok"])
 
@@ -23,7 +23,7 @@ class TestRetry:
 
         assert retry(flaky, attempts=3) == "ok"
 
-    @patch("faire_cuan.retry.time.sleep")
+    @patch("oci_artifact_importer.retry.time.sleep")
     def test_raises_last_exception_after_all_attempts_exhausted(self, mock_sleep):
         attempt_count = 0
 
@@ -37,7 +37,7 @@ class TestRetry:
 
         assert attempt_count == 3
 
-    @patch("faire_cuan.retry.time.sleep")
+    @patch("oci_artifact_importer.retry.time.sleep")
     def test_logs_retry_attempts(self, mock_sleep, caplog):
         calls = iter([RuntimeError("oops"), "ok"])
 
@@ -47,7 +47,7 @@ class TestRetry:
                 raise v
             return v
 
-        with caplog.at_level("WARNING", logger="faire_cuan.retry"):
+        with caplog.at_level("WARNING", logger="oci_artifact_importer.retry"):
             retry(flaky, attempts=2, delay=5.0)
 
         assert "Attempt 1/2 failed" in caplog.text

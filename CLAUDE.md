@@ -1,11 +1,11 @@
-# faire-cuan
+# oci-artifact-importer
 
-Standalone Python package that verifies, mirrors, and processes externally-signed OCI artifacts. Extracted from inline bash in the `oci-verify-import` Tekton task. Name follows Lightwell's Irish mythology convention ("faire-cuan" = harbor watch).
+Standalone Python package that verifies, mirrors, and processes externally-signed OCI artifacts. Extracted from inline bash in the `oci-verify-import` Tekton task. Formerly named `faire-cuan`.
 
 ## Project structure
 
 ```
-src/faire_cuan/
+src/oci_artifact_importer/
   cli.py              # Entry point, argparse with subcommands
   commands/            # Subcommand modules (verify, mirror, results) — each has register() + run()
   tools/               # Thin subprocess wrappers (cosign, oras, skopeo, openssl)
@@ -48,5 +48,5 @@ tox                       # full CI suite (pytest, ruff, bandit, pip-audit)
 2. Implement `verify.py` and `mirror.py` business logic
 3. Implement `results.py` (SBOM extraction, SLSA parsing, build index attach)
 4. Dockerfile
-5. Update Tekton YAML to use faire-cuan
+5. Update Tekton YAML to use oci-artifact-importer
 6. End-to-end validation

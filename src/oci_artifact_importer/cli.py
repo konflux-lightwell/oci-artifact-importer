@@ -4,12 +4,14 @@ import argparse
 import logging
 import sys
 
-from faire_cuan import OciVerifyError
-from faire_cuan.commands import mirror, results, verify
+from oci_artifact_importer import OciVerifyError
+from oci_artifact_importer.commands import mirror, results, verify
 
 
 def make_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="faire-cuan", description="Verify, mirror, and process OCI artifacts")
+    parser = argparse.ArgumentParser(
+        prog="oci-artifact-importer", description="Verify, mirror, and process OCI artifacts"
+    )
     subparsers = parser.add_subparsers(dest="command")
 
     verify.register(subparsers)

@@ -1,4 +1,4 @@
-from faire_cuan.tekton import write_result
+from oci_artifact_importer.tekton import write_result
 
 
 class TestWriteResult:

@@ -4,8 +4,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from faire_cuan.tekton import write_result
-from faire_cuan.verify import run_verify
+from oci_artifact_importer.tekton import write_result
+from oci_artifact_importer.verify import run_verify
 
 
 def register(subparsers: argparse._SubParsersAction) -> None:
@@ -18,7 +18,7 @@ def register(subparsers: argparse._SubParsersAction) -> None:
 
 
 def run(args: argparse.Namespace) -> int:
-    from faire_cuan import VerificationError
+    from oci_artifact_importer import VerificationError
 
     try:
         result = run_verify(args.source_image, args.key_file, ca_bundle=args.ca_bundle)

@@ -1,9 +1,9 @@
 from pathlib import Path
 from unittest.mock import patch
 
-from faire_cuan import OciVerifyError, VerificationError
-from faire_cuan.cli import main
-from faire_cuan.verify import VerifyResult
+from oci_artifact_importer import OciVerifyError, VerificationError
+from oci_artifact_importer.cli import main
+from oci_artifact_importer.verify import VerifyResult
 
 
 class TestNoSubcommand:
@@ -12,8 +12,8 @@ class TestNoSubcommand:
 
 
 class TestVerifyCommand:
-    @patch("faire_cuan.commands.verify.write_result")
-    @patch("faire_cuan.commands.verify.run_verify")
+    @patch("oci_artifact_importer.commands.verify.write_result")
+    @patch("oci_artifact_importer.commands.verify.run_verify")
     def test_routes_to_run_verify_and_writes_fingerprint(self, mock_run_verify, mock_write_result, tmp_path):
         mock_run_verify.return_value = VerifyResult(fingerprint="SHA256:abc")
         results_dir = tmp_path / "results"
@@ -43,7 +43,7 @@ class TestVerifyCommand:
             "SHA256:abc",
         )
 
-    @patch("faire_cuan.commands.verify.run_verify")
+    @patch("oci_artifact_importer.commands.verify.run_verify")
     def test_verification_error_returns_12(self, mock_run_verify, tmp_path, capsys):
         mock_run_verify.side_effect = VerificationError("signature mismatch")
 
@@ -66,7 +66,7 @@ class TestVerifyCommand:
 
 
 class TestMirrorCommand:
-    @patch("faire_cuan.commands.mirror.run_mirror")
+    @patch("oci_artifact_importer.commands.mirror.run_mirror")
     def test_routes_to_run_mirror(self, mock_run_mirror):
         rc = main(
             [
@@ -87,10 +87,10 @@ class TestMirrorCommand:
 
 
 class TestResultsCommand:
-    @patch("faire_cuan.commands.results.write_result")
-    @patch("faire_cuan.commands.results.run_results")
+    @patch("oci_artifact_importer.commands.results.write_result")
+    @patch("oci_artifact_importer.commands.results.run_results")
     def test_routes_to_run_results_and_writes_all_outputs(self, mock_run_results, mock_write_result, tmp_path):
-        from faire_cuan.results import GitCoordinates, ImageInfo, ResultsOutput
+        from oci_artifact_importer.results import GitCoordinates, ImageInfo, ResultsOutput
 
         mock_run_results.return_value = ResultsOutput(
             image=ImageInfo(
@@ -123,7 +123,7 @@ class TestResultsCommand:
 
 
 class TestErrorHandling:
-    @patch("faire_cuan.commands.verify.run_verify")
+    @patch("oci_artifact_importer.commands.verify.run_verify")
     def test_oci_verify_error_returns_1(self, mock_run_verify, tmp_path, capsys):
         mock_run_verify.side_effect = OciVerifyError("something broke")
 

@@ -3,8 +3,8 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from faire_cuan.auth import home_docker_config, setup_ca_bundle
-from faire_cuan.tools import cosign
+from oci_artifact_importer.auth import home_docker_config, setup_ca_bundle
+from oci_artifact_importer.tools import cosign
 
 logger = logging.getLogger(__name__)
 

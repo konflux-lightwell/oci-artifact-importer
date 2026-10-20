@@ -1,6 +1,6 @@
-# Faire-Cuan
+# OCI Artifact Importer
 
-Faire-Cuan handles the importing of OCI artifacts that were built outside of Konflux.
+OCI Artifact Importer handles the importing of OCI artifacts that were built outside of Konflux.
 
 The tool handles three stages of the import pipeline:
 
@@ -10,7 +10,7 @@ The tool handles three stages of the import pipeline:
 
 ## Installation
 
-Faire-Cuan requires Python 3.11+ and has no runtime dependencies beyond the standard library. It expects `cosign`, `oras`, `skopeo`, and `openssl` to be available on `PATH`.
+OCI Artifact Importer requires Python 3.11+ and has no runtime dependencies beyond the standard library. It expects `cosign`, `oras`, `skopeo`, and `openssl` to be available on `PATH`.
 
 ```bash
 pip install .
@@ -18,12 +18,14 @@ pip install .
 
 ## Usage
 
+Installs as both `oci-artifact-importer` and the shorter alias `oai` — the examples below use the full name, but either works interchangeably.
+
 ### Verify a source image
 
 Verify the cosign signature on a digest-pinned source image and write the verification key fingerprint as a Tekton result.
 
 ```bash
-faire-cuan verify \
+oci-artifact-importer verify \
   --source-image registry.example.com/org/repo@sha256:abc123 \
   --key-file /path/to/cosign.pub \
   --results-dir /tekton/results \
@@ -35,7 +37,7 @@ faire-cuan verify \
 Copy the source image and all its OCI referrers to a destination registry.
 
 ```bash
-faire-cuan mirror \
+oci-artifact-importer mirror \
   --source-image registry.example.com/org/repo@sha256:abc123 \
   --image dest-registry.example.com/org/repo:tag \
   --ca-bundle /path/to/ca-bundle.crt  # optional
@@ -46,7 +48,7 @@ faire-cuan mirror \
 Extract image metadata, SBOM, and git provenance from SLSA attestations, then write them as Tekton results.
 
 ```bash
-faire-cuan results \
+oci-artifact-importer results \
   --source-image registry.example.com/org/repo@sha256:abc123 \
   --image dest-registry.example.com/org/repo:tag \
   --workdir /workspace/artifacts \
@@ -81,10 +83,6 @@ Individual checks:
 ```bash
 ruff check src/ tests/    # lint
 ruff format src/ tests/   # format
-bandit -r src/faire_cuan/ -ll  # security
+bandit -r src/oci_artifact_importer/ -ll  # security
 pip-audit                 # dependency audit
 ```
-
-## About the name
-
-Lightwell projects follow an Irish-language naming convention. *Faire-Cuan* (faire: watch, guard; cuan: harbor, haven) means "harbor watch" — fitting for a tool that stands guard over artifacts entering the internal registry.

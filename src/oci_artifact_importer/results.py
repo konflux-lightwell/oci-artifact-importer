@@ -10,10 +10,10 @@ import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 
-from faire_cuan import ToolError, ValidationError
-from faire_cuan.auth import create_docker_auth, home_docker_config, setup_ca_bundle
-from faire_cuan.retry import retry
-from faire_cuan.tools import cosign, oras, skopeo
+from oci_artifact_importer import ToolError, ValidationError
+from oci_artifact_importer.auth import create_docker_auth, home_docker_config, setup_ca_bundle
+from oci_artifact_importer.retry import retry
+from oci_artifact_importer.tools import cosign, oras, skopeo
 
 logger = logging.getLogger(__name__)
 
