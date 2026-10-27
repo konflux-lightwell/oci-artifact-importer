@@ -107,6 +107,10 @@ class TestComputeImageInfo:
         assert info.image_digest == "sha256:aaa"
         assert info.image_ref == "dest.io/repo@sha256:aaa"
 
+    def test_raises_validation_error_when_not_digest_pinned(self):
+        with pytest.raises(ValidationError, match="digest-pinned"):
+            _compute_image_info("src.io/repo:tag", "dest.io/repo:tag")
+
 
 class TestDecodeDssePayload:
     def test_standard_payload(self):
