@@ -87,6 +87,8 @@ def _parse_repo(image: str) -> str:
 
 
 def _compute_image_info(source_image: str, dest_image: str) -> ImageInfo:
+    if "@sha256:" not in source_image:
+        raise ValidationError("SOURCE_IMAGE must be digest-pinned (contain @sha256:)")
     digest = source_image.split("@", 1)[1]
     dest_repo = _parse_repo(dest_image)
     return ImageInfo(
