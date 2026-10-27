@@ -50,6 +50,8 @@ def download_attestation(image: str, *, docker_config: Path) -> Iterator[dict]:
         text=True,
         env=_env(docker_config),
     )
+    if result.returncode != 0:
+        raise ToolError(f"cosign download attestation failed: {result.stderr}")
     if result.stderr:
         logger.warning("cosign download attestation stderr: %s", result.stderr)
     for line in result.stdout.strip().splitlines():
