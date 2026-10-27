@@ -84,6 +84,12 @@ class TestDownloadAttestation:
 
         assert "some warning" in caplog.text
 
+    def test_raises_tool_error_on_failure(self, docker_config: Path):
+        proc = CompletedProcess(args=[], returncode=1, stdout="", stderr="no attestations associated")
+        with patch("subprocess.run", return_value=proc):
+            with pytest.raises(ToolError, match="no attestations associated"):
+                list(cosign.download_attestation("img@sha256:abc", docker_config=docker_config))
+
 
 class TestAttachSbom:
     def test_succeeds_silently(self, tmp_path: Path, docker_config: Path):
