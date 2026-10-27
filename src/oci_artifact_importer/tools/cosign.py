@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import subprocess
 from collections.abc import Iterator
 from pathlib import Path
@@ -82,8 +83,6 @@ def attach_sbom(
 
 
 def _env(docker_config: Path) -> dict[str, str]:
-    import os
-
     env = os.environ.copy()
     env["DOCKER_CONFIG"] = str(docker_config)
     return env
